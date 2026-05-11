@@ -1,68 +1,82 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
 
-require('dotenv').config()
+require("dotenv").config();
 
-const app = express()
+const app = express();
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URL)
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.log(err))
+.then(() => {
+  console.log("MongoDB Connected ✅");
+});
 
 const UserSchema = new mongoose.Schema({
   username: String,
   password: String,
-})
+});
 
-const User = mongoose.model('User', UserSchema)
+const User = mongoose.model("User", UserSchema);
 
-app.post('/api/login', async (req, res) => {
+app.post("/api/login", async (req, res) => {
 
-  const { username, password } = req.body
-   
-  const user = await User.findOne({ username })
-  
+  try {
 
-  if (!user) {
-    return res.status(400).json({
-      message: 'User not found'
-    })
+    const { username, password } = req.body;
+
+    console.log(username, password);
+
+    const user = await User.findOne({ username });
+
+    console.log(user);
+
+    if (!user) {
+
+      return res.status(401).json({
+        success: false,
+        message: "User Not Found",
+      });
+
+    }
+
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    console.log(isMatch);
+
+    if (!isMatch) {
+
+      return res.status(401).json({
+        success: false,
+        message: "Wrong Password",
+      });
+
+    }
+
+    return res.json({
+      success: true,
+      message: "Login Successful ❤️",
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+
   }
 
-  const validPassword = await bcrypt.compare(
-    password,
-    user.password
-  )
+});
 
-  if (!validPassword) {
-    return res.status(400).json({
-      message: 'Wrong password'
-    })
-  }
-
-  const token = jwt.sign(
-    { id: user._id },
-    process.env.JWT_SECRET
-  )
-
-  res.json({
-    token,
-    message: 'Login Success'
-  })
-
-})
-
-app.get('/', (req, res) => {
-  res.send('Backend Running')
-})
-
-app.listen(process.env.PORT, () => {
-  console.log(`Server Running On ${process.env.PORT}`)
-  
-})
+app.listen(5000, () => {
+  console.log("Server Running On 5000");
+});

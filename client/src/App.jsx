@@ -1,26 +1,31 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
 
-function App() {
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Surprise from "./pages/Surprise";
+import Reveal from "./pages/Reveal";
+
+
+export default function App() {
+
   return (
+
     <BrowserRouter>
 
-      <div className="min-h-screen bg-black">
+      <Routes>
 
-        <Routes>
+        <Route path="/" element={<Login />} />
 
-          {/* Login Page */}
-          <Route
-            path="/"
-            element={<Login />}
-          />
+        <Route path="/home" element={<Home />} />
 
-        </Routes>
+        <Route path="/surprise" element={<Surprise />} />
 
-      </div>
+        <Route path="/reveal" element={<Reveal />} />
+      
+      </Routes>
 
     </BrowserRouter>
-  );
-}
 
-export default App;
+  );
+
+}

@@ -14,7 +14,7 @@ const User = mongoose.model('User', UserSchema)
 async function createUser() {
 
   const hashedPassword = await bcrypt.hash(
-    'sau123',
+    'sauuu2805',
     10
   )
 
