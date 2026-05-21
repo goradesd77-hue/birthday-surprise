@@ -1,14 +1,42 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 
 export default function Reveal() {
+
+  const audioRef = useRef(null);
+
+          useEffect(() => {
+
+  const playMusic = async () => {
+
+    try {
+
+      await audioRef.current.play();
+
+    } catch (err) {
+
+      console.log("Autoplay blocked");
+
+    }
+
+  };
+
+  playMusic();
+
+}, []);
 
   return (
 
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
 
-        
+          <audio
+            ref={audioRef}
+            src="/music.mp3"
+            loop
+          />
+
+          
         {/* Background */}
         <img
           src="/bg.jpg"

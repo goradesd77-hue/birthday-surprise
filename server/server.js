@@ -10,10 +10,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 mongoose.connect(process.env.MONGODB_URL)
-.then(() => {
-  console.log("MongoDB Connected ✅");
-});
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
 
 const UserSchema = new mongoose.Schema({
   username: String,
@@ -78,5 +78,5 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.listen(5000, () => {
-  console.log("Server Running On 5000");
+  console.log("Server Running on Port 5000");
 });
