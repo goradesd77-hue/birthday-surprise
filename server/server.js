@@ -28,11 +28,9 @@ app.post("/api/login", async (req, res) => {
 
     const { username, password } = req.body;
 
-    console.log(username, password);
+    console.log("LOGIN API HIT");
 
     const user = await User.findOne({ username });
-
-    console.log(user);
 
     if (!user) {
 
@@ -43,10 +41,7 @@ app.post("/api/login", async (req, res) => {
 
     }
 
-   const isMatch = password === user.password;
-    );
-
-    console.log(isMatch);
+    const isMatch = password === user.password;
 
     if (!isMatch) {
 
@@ -73,8 +68,4 @@ app.post("/api/login", async (req, res) => {
 
   }
 
-});
-
-app.listen(5000, () => {
-  console.log("Server Running on Port 5000");
 });
