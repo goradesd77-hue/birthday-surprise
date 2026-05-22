@@ -43,9 +43,7 @@ app.post("/api/login", async (req, res) => {
 
     }
 
-    const isMatch = await bcrypt.compare(
-      password,
-      user.password
+   const isMatch = password === user.password;
     );
 
     console.log(isMatch);
