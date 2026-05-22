@@ -39,7 +39,8 @@ app.post("/api/login", async (req, res) => {
 
     const { username, password } = req.body;
 
-    console.log(username, password);
+    console.log("LOGIN REQUEST RECEIVED");
+    console.log(req.body);
 
     const user = await User.findOne({ username });
 
@@ -69,6 +70,7 @@ app.post("/api/login", async (req, res) => {
 
   } catch (err) {
 
+    console.log("LOGIN ERROR:");
     console.log(err);
 
     return res.status(500).json({
