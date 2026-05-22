@@ -17,7 +17,7 @@ const handleLogin = async () => {
   try {
 
     const response = await fetch(
-      "https://birthday-surprise-for-you.onrender.com/api/login",
+      "https://birthday-surprise-for-you.onrender.com",
       {
         method: "POST",
         headers: {
