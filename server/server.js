@@ -7,20 +7,9 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST"],
-}));
-
+app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Backend Running");
-});
-
-app.get("/test", (req, res) => {
-  res.send("Test Route Working");
-});
 
 mongoose.connect(process.env.MONGODB_URL)
   .then(() => console.log("MongoDB Connected"))
@@ -39,16 +28,19 @@ app.post("/api/login", async (req, res) => {
 
     const { username, password } = req.body;
 
-    console.log("LOGIN REQUEST RECEIVED");
-    console.log(req.body);
+    console.log(username, password);
 
     const user = await User.findOne({ username });
 
+    console.log(user);
+
     if (!user) {
+
       return res.status(401).json({
         success: false,
         message: "User Not Found",
       });
+
     }
 
     const isMatch = await bcrypt.compare(
@@ -56,11 +48,15 @@ app.post("/api/login", async (req, res) => {
       user.password
     );
 
+    console.log(isMatch);
+
     if (!isMatch) {
+
       return res.status(401).json({
         success: false,
         message: "Wrong Password",
       });
+
     }
 
     return res.json({
@@ -70,7 +66,6 @@ app.post("/api/login", async (req, res) => {
 
   } catch (err) {
 
-    console.log("LOGIN ERROR:");
     console.log(err);
 
     return res.status(500).json({
@@ -82,8 +77,6 @@ app.post("/api/login", async (req, res) => {
 
 });
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server Running on Port ${PORT}`);
+app.listen(5000, () => {
+  console.log("Server Running on Port 5000");
 });
