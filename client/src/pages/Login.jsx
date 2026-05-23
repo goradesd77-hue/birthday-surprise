@@ -49,7 +49,7 @@ const handleLogin = async () => {
 
     }
 
-  } ccatch (err) {
+  } catch (err) {
 
   console.log(err);
 
